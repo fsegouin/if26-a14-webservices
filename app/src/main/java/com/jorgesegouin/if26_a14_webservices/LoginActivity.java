@@ -1,9 +1,12 @@
 package com.jorgesegouin.if26_a14_webservices;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 
 public class LoginActivity extends Activity {
@@ -35,5 +38,16 @@ public class LoginActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void connexion(View view) {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Coucou les amis!");
+        builder.create().show();
+        EditText email = (EditText) findViewById(R.id.email);
+        String emailValue = email.getText().toString();
+        EditText password = (EditText) findViewById(R.id.password);
+        String passwordValue = password.getText().toString();
     }
 }
