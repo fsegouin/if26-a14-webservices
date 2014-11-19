@@ -67,7 +67,11 @@ public class LoginActivity extends Activity {
         MessengerClient.getMessengerApiClient().getUser(emailValue, passwordValue, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
-                Toast.makeText(getApplicationContext(), "Token: " + user.getToken() + ". Status Code: " + response.getStatus(), Toast.LENGTH_SHORT).show();
+                String userToken = user.getToken();
+                if (userToken != null)
+                    Toast.makeText(getApplicationContext(), "Token: " + user.getToken(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "Error. Please check your credentials and try again.", Toast.LENGTH_LONG).show();
             }
 
             @Override
