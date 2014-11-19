@@ -1,20 +1,35 @@
 package com.jorgesegouin.if26_a14_webservices;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+//import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+//import android.widget.TextView;
+
+import com.jorgesegouin.if26_a14_webservices.Api.MessengerClient;
+import com.jorgesegouin.if26_a14_webservices.Models.User;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class LoginActivity extends Activity {
+
+    private EditText txtEmail;
+    private EditText txtPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        txtEmail = (EditText) findViewById(R.id.email);
+        txtPassword = (EditText) findViewById(R.id.password);
     }
 
 
@@ -41,13 +56,24 @@ public class LoginActivity extends Activity {
     }
 
     public void connexion(View view) {
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(this);
-        builder.setMessage("Coucou les amis!");
-        builder.create().show();
-        EditText email = (EditText) findViewById(R.id.email);
-        String emailValue = email.getText().toString();
-        EditText password = (EditText) findViewById(R.id.password);
-        String passwordValue = password.getText().toString();
+
+//        AlertDialog.Builder builder;
+//        builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Coucou les amis!");
+//        builder.create().show();
+        String emailValue = txtEmail.getText().toString();
+        String passwordValue = txtPassword.getText().toString();
+
+        MessengerClient.getMessengerApiClient().getUser(emailValue, passwordValue, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                Toast.makeText(getApplicationContext(), "Token: " + user.getToken() + ". Status Code: " + response.getStatus(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
