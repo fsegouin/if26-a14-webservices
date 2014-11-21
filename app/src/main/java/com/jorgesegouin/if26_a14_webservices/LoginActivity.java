@@ -2,6 +2,7 @@ package com.jorgesegouin.if26_a14_webservices;
 
 import android.app.Activity;
 //import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,8 +69,12 @@ public class LoginActivity extends Activity {
             @Override
             public void success(User user, Response response) {
                 String userToken = user.getToken();
-                if (userToken != null)
-                    Toast.makeText(getApplicationContext(), "Token: " + user.getToken(), Toast.LENGTH_SHORT).show();
+                if (userToken != null) {
+                    Toast.makeText(getApplicationContext(), "Token: " + userToken, Toast.LENGTH_SHORT).show();
+                    Intent contactListIntent = new Intent(LoginActivity.this, ContactListActivity.class);
+                    contactListIntent.putExtra("token", userToken);
+                    startActivity(contactListIntent);
+                }
                 else
                     Toast.makeText(getApplicationContext(), "Error. Please check your credentials and try again.", Toast.LENGTH_LONG).show();
             }

@@ -6,10 +6,12 @@ import java.util.Map;
 /**
  * Created by florentsegouin on 18/11/14.
  */
+
 public class Contact {
 
     private int id;
-    private User user;
+    private Contact_ contact;
+    private Message message;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -33,19 +35,37 @@ public class Contact {
     /**
      *
      * @return
-     * The user
+     * The contact
      */
-    public User getUser() {
-        return user;
+    public Contact_ getContact() {
+        return contact;
     }
 
     /**
      *
-     * @param user
-     * The user
+     * @param contact
+     * The contact
      */
-    public void setUser(User user) {
-        this.user = user;
+    public void setContact(Contact_ contact) {
+        this.contact = contact;
+    }
+
+    /**
+     *
+     * @return
+     * The message
+     */
+    public Message getMessage() {
+        return message;
+    }
+
+    /**
+     *
+     * @param message
+     * The message
+     */
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     public Map<String, Object> getAdditionalProperties() {
