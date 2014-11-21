@@ -4,6 +4,7 @@ import android.widget.EditText;
 
 import com.jorgesegouin.if26_a14_webservices.Models.Contact;
 import com.jorgesegouin.if26_a14_webservices.Models.ContactList;
+import com.jorgesegouin.if26_a14_webservices.Models.MessagesList;
 import com.jorgesegouin.if26_a14_webservices.Models.User;
 
 import java.util.List;
@@ -26,9 +27,11 @@ public interface MessengerApiInterface {
     @GET("/contacts.php")
     void getContacts(@Query("token") String token, Callback<ContactList> cb);
 
-//    @GET("/d3/profile/{battleTag}/")
-//    Profile profile(@Path("battleTag") String battleTag);
+    @GET("/messages.php")
+    void getMessages(@Query("token") String token, @Query("contact") int contactId, Callback<MessagesList> cb);
 
-//    @GET("/d3/profile/{battleTag}/")
-//    void getUserProfile(@Path("battleTag") String battleTag, Callback<Profile> cb);
+    @GET("/message.php")
+    void sendMessage(@Query("token") String token, @Query("contact") int contactId,
+                     @Query("message") String message, Callback<MessagesList> cb);
+
 }

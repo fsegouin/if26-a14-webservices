@@ -1,7 +1,6 @@
 package com.jorgesegouin.if26_a14_webservices;
 
 import android.app.Activity;
-//import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-//import android.widget.TextView;
 
 import com.jorgesegouin.if26_a14_webservices.Api.MessengerClient;
 import com.jorgesegouin.if26_a14_webservices.Models.User;
@@ -28,6 +26,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle("Messenger App");
 
         txtEmail = (EditText) findViewById(R.id.email);
         txtPassword = (EditText) findViewById(R.id.password);
@@ -57,11 +56,6 @@ public class LoginActivity extends Activity {
     }
 
     public void connexion(View view) {
-
-//        AlertDialog.Builder builder;
-//        builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Coucou les amis!");
-//        builder.create().show();
         String emailValue = txtEmail.getText().toString();
         String passwordValue = txtPassword.getText().toString();
 
@@ -70,13 +64,14 @@ public class LoginActivity extends Activity {
             public void success(User user, Response response) {
                 String userToken = user.getToken();
                 if (userToken != null) {
-                    Toast.makeText(getApplicationContext(), "Token: " + userToken, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Token: " + userToken, Toast.LENGTH_SHORT).show();
                     Intent contactListIntent = new Intent(LoginActivity.this, ContactListActivity.class);
                     contactListIntent.putExtra("token", userToken);
                     startActivity(contactListIntent);
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "Error. Please check your credentials and try again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Erreur, veuillez vérifier vos informations",
+                            Toast.LENGTH_LONG).show();
             }
 
             @Override
