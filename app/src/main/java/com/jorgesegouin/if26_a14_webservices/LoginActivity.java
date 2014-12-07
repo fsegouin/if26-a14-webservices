@@ -3,6 +3,7 @@ package com.jorgesegouin.if26_a14_webservices;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,25 +60,37 @@ public class LoginActivity extends Activity {
         String emailValue = txtEmail.getText().toString();
         String passwordValue = txtPassword.getText().toString();
 
-        MessengerClient.getMessengerApiClient().getUser(emailValue, passwordValue, new Callback<User>() {
-            @Override
-            public void success(User user, Response response) {
-                String userToken = user.getToken();
-                if (userToken != null) {
-//                    Toast.makeText(getApplicationContext(), "Token: " + userToken, Toast.LENGTH_SHORT).show();
-                    Intent contactListIntent = new Intent(LoginActivity.this, ContactListActivity.class);
-                    contactListIntent.putExtra("token", userToken);
-                    startActivity(contactListIntent);
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "Erreur, veuillez vérifier vos informations",
-                            Toast.LENGTH_LONG).show();
-            }
+        if (isValidEmail(emailValue)) {
 
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+            MessengerClient.getMessengerApiClient().getUser(emailValue, passwordValue, new Callback<User>() {
+                @Override
+                public void success(User user, Response response) {
+                    String userToken = user.getToken();
+                    if (userToken != null) {
+//                    Toast.makeText(getApplicationContext(), "Token: " + userToken, Toast.LENGTH_SHORT).show();
+                        Intent contactListIntent = new Intent(LoginActivity.this, ContactListActivity.class);
+                        contactListIntent.putExtra("token", userToken);
+                        startActivity(contactListIntent);
+                    } else
+                        Toast.makeText(getApplicationContext(), "Impossible de se connecter, veuillez vérifier vos informations de connexion",
+                                Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+        else {
+            Toast.makeText(getApplicationContext(), "Email non valide, vérifiez vos informations", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }
